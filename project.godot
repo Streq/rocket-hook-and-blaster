@@ -59,6 +59,10 @@ ui_down={
  ]
 }
 
+[physics]
+
+2d/default_gravity=0
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

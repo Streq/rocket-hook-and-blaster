@@ -8,7 +8,12 @@ var move_dir : Vector2
 func _ready():
 	pass # Replace with function body.
 
-
+func _process(delta):
+	if move_dir.is_equal_approx(Vector2.ZERO):
+		$Fire.hide()
+	else:
+		$Fire.rotation = move_dir.angle()
+		$Fire.show()
 
 func _physics_process(delta):
 	move_dir = Vector2(
