@@ -8,6 +8,7 @@ var move_dir : Vector2
 var aiming_at : Vector2
 var wanna_shoot : bool = false
 var can_shoot : bool = true
+onready var spawn_point = position
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -43,8 +44,10 @@ func _physics_process(delta):
 	apply_central_impulse(move_dir * fuel_power * delta)
 	
 	# shoot
-	if wanna_shoot and can_shoot:
-		shoot()
+	if wanna_shoot:
+		wanna_shoot = false
+		if can_shoot:
+			shoot()
 
 func shoot():
 	var b = Bullet.instance()
@@ -57,6 +60,16 @@ func shoot():
 	can_shoot = false
 	$GunCooldown.start()
 
+func die():
+	sleeping = true
+	yield(get_tree(), "idle_frame")
+	sleeping = false
+	position = spawn_point
+	linear_velocity = Vector2.ZERO
 
 func _on_GunCooldown_timeout():
 	can_shoot = true
+
+
+func _on_HitBox_body_entered(body):
+	die()
