@@ -30,6 +30,15 @@ position = Vector2( -32, 0 )
 rotation = -1.5708
 texture = ExtResource( 3 )
 
+[node name="Explosion" type="Node2D" parent="."]
+visible = false
+
+[node name="FireSprite" type="Sprite" parent="Explosion"]
+position = Vector2( -64, 0 )
+rotation = -1.5708
+scale = Vector2( 3, 3 )
+texture = ExtResource( 3 )
+
 [node name="BodySprite" type="Sprite" parent="."]
 position = Vector2( 0, -2.5 )
 texture = ExtResource( 1 )
@@ -38,6 +47,7 @@ region_rect = Rect2( 8, 8, 48, 48 )
 
 [node name="GunCooldown" type="Timer" parent="."]
 process_mode = 0
+wait_time = 0.1
 
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 0
