@@ -10,7 +10,7 @@ var wanna_shoot : bool = false
 var wanna_jump : bool = false
 var can_shoot : bool = true
 var jump_force : float = 1500
-onready var spawn_point = position
+var spawn_point: Position2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -81,7 +81,6 @@ func die():
 	sleeping = true
 	yield(get_tree(), "idle_frame")
 	sleeping = false
-	position = spawn_point
 	linear_velocity = Vector2.ZERO
 
 func _on_GunCooldown_timeout():
