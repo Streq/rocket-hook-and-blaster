@@ -78,6 +78,18 @@ position = Vector2( 519.7, 151.637 )
 [node name="2" type="Position2D" parent="SpawnPoints"]
 position = Vector2( 887.604, 421.858 )
 
+[node name="3" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 853.482, 138.12 )
+
+[node name="4" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 195.719, 382.816 )
+
+[node name="5" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 166.535, 93.2211 )
+
+[node name="6" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 562.094, 330.2 )
+
 [node name="Player" parent="." instance=ExtResource( 5 )]
 position = Vector2( 519.7, 151.532 )
 mass = 1.0
