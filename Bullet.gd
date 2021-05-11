@@ -3,7 +3,7 @@ extends Area2D
 
 var speed = 1500
 var recoil = 200
-var power = 1500
+var power = 4000
 var parent : Node
 
 func _physics_process(delta):
