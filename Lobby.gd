@@ -16,36 +16,44 @@ func _ready():
 		$Connect/inputName.text = desktop_path[desktop_path.size() - 2]
 
 
-func _on_host_pressed():
+func _on_buttonHost_pressed():
 	if $Connect/inputName.text == "":
-		$Connect/ErrorLabel.text = "Invalid name!"
+		$Connect/labelError.text = "Invalid name!"
 		return
 
 	$Connect.hide()
 	$Players.show()
-	$Connect/ErrorLabel.text = ""
+	$Connect/labelError.text = ""
 
-	var player_name = $Connect/Name.text
-	Global.host_game(player_name)
+	var player_name = $Connect/inputName.text
+	var port = $Connect/buttonHost/inputPort.text
+	if not port.is_valid_integer():
+		$Connect/labelError.text = "Invalid port!"
+		return
+	Global.host_game(port.to_int(), player_name)
 	refresh_lobby()
 
 
-func _on_join_pressed():
-	if $Connect/Name.text == "":
-		$Connect/ErrorLabel.text = "Invalid name!"
+func _on_buttonJoin_pressed():
+	if $Connect/inputName.text == "":
+		$Connect/labelError.text = "Invalid name!"
 		return
 
-	var ip = $Connect/IPAddress.text
+	var ip = $Connect/buttonJoin/inputIP.text
+	var port = $Connect/buttonJoin/inputPort.text
 	if not ip.is_valid_ip_address():
-		$Connect/ErrorLabel.text = "Invalid IP address!"
+		$Connect/labelError.text = "Invalid IP address!"
 		return
 
-	$Connect/ErrorLabel.text = ""
-	$Connect/Host.disabled = true
-	$Connect/Join.disabled = true
+	if not port.is_valid_integer():
+		$Connect/labelError.text = "Invalid port!"
+		return
+	$Connect/labelError.text = ""
+	$Connect/buttonHost.disabled = true
+	$Connect/buttonJoin.disabled = true
 
-	var player_name = $Connect/Name.text
-	Global.join_game(ip, player_name)
+	var player_name = $Connect/inputName.text
+	Global.join_game(ip, port.to_int(), player_name)
 
 
 func _on_connection_success():
@@ -54,24 +62,24 @@ func _on_connection_success():
 
 
 func _on_connection_failed():
-	$Connect/Host.disabled = false
-	$Connect/Join.disabled = false
-	$Connect/ErrorLabel.set_text("Connection failed.")
+	$Connect/buttonHost.disabled = false
+	$Connect/buttonJoin.disabled = false
+	$Connect/labelError.set_text("Connection failed.")
 
 
 func _on_game_ended():
 	show()
 	$Connect.show()
 	$Players.hide()
-	$Connect/Host.disabled = false
-	$Connect/Join.disabled = false
+	$Connect/buttonHost.disabled = false
+	$Connect/buttonJoin.disabled = false
 
 
 func _on_game_error(errtxt):
 	$ErrorDialog.dialog_text = errtxt
 	$ErrorDialog.popup_centered_minsize()
-	$Connect/Host.disabled = false
-	$Connect/Join.disabled = false
+	$Connect/buttonHost.disabled = false
+	$Connect/buttonJoin.disabled = false
 
 
 func refresh_lobby():
@@ -82,10 +90,10 @@ func refresh_lobby():
 	for p in players:
 		$Players/List.add_item(p)
 
-	$Players/Start.disabled = not get_tree().is_network_server()
+	$Players/buttonStart.disabled = not get_tree().is_network_server()
 
 
-func _on_start_pressed():
+func _on_buttonStart_pressed():
 	Global.begin_game()
 
 

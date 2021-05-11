@@ -155,10 +155,12 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -42.0
-
-[node name="ErrorDialog" type="AcceptDialog" parent="."]
-margin_right = 84.0
-margin_bottom = 58.0
+text = "s"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Players" type="Panel" parent="."]
 visible = false
@@ -210,5 +212,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+margin_right = 84.0
+margin_bottom = 58.0
+
 [connection signal="pressed" from="Connect/buttonJoin" to="." method="_on_buttonJoin_pressed"]
 [connection signal="pressed" from="Connect/buttonHost" to="." method="_on_buttonHost_pressed"]
+[connection signal="pressed" from="Players/buttonStart" to="." method="_on_buttonStart_pressed"]

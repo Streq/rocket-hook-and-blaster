@@ -1,6 +1,5 @@
 extends Node
 
-var port
 const MAX_PEERS = 12
 
 var peer = null
@@ -19,7 +18,7 @@ signal game_ended()
 signal game_error(what)
 
 
-func _player_coonnected(id):
+func _player_connected(id):
 	rpc_id(id, "register_player", player_name)
 
 func _player_disconnected(id):
@@ -75,6 +74,13 @@ remote func pre_start_game(spawn_points):
 		if p_id == get_tree().get_network_unique_id():
 			# If node for this peer id, set name.
 			player.set_player_name(player_name)
+			# set camera as child of this client's player
+			var cam = world.get_node("camera");
+			world.remove_child(cam)
+			player.add_child(cam)
+			# set respawn position
+			player.spawn_pos = spawn_pos
+			
 		else:
 			# Otherwise set name from peer.
 			player.set_player_name(players[p_id])
@@ -82,9 +88,9 @@ remote func pre_start_game(spawn_points):
 		world.get_node("Players").add_child(player)
 
 	# Set up score.
-	world.get_node("Score").add_player(get_tree().get_network_unique_id(), player_name)
-	for pn in players:
-		world.get_node("Score").add_player(pn, players[pn])
+#	world.get_node("Score").add_player(get_tree().get_network_unique_id(), player_name)
+#	for pn in players:
+#		world.get_node("Score").add_player(pn, players[pn])
 
 	if not get_tree().is_network_server():
 		# Tell server we are ready to start.
@@ -106,13 +112,13 @@ remote func ready_to_start(id):
 			rpc_id(p, "post_start_game")
 		post_start_game()
 
-func host_game(new_player_name):
+func host_game(port, new_player_name):
 	player_name = new_player_name
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_server(port, MAX_PEERS)
 	get_tree().set_network_peer(peer)
 
-func join_game(ip, new_player_name):
+func join_game(ip, port, new_player_name):
 	player_name = new_player_name
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_client(ip, port)
