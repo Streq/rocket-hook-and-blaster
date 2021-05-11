@@ -14,8 +14,6 @@ var wanna_jump : bool = false
 var can_shoot : bool = true
 var jump_force : float = 5000
 var spawn_pos: Vector2
-#used to calculate collisions
-var vel : Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
