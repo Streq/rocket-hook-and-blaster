@@ -2,7 +2,7 @@ extends Area2D
 
 
 var speed = 1500
-var recoil = 200
+var recoil = 2000
 var power = 4000
 var parent : Node
 
