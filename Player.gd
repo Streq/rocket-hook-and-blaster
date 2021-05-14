@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 
-export var fuel_power := 10000
+export var fuel_power := 2000
 
 var Bullet : PackedScene = preload("res://Bullet.tscn")
 var Explosion : PackedScene = preload("res://FuelExplosion.tscn")
@@ -13,7 +13,6 @@ var aiming_at : Vector2
 var wanna_shoot : bool = false
 var wanna_jump : bool = false
 var can_shoot : bool = true
-var jump_force : float = 5000
 var spawn_pos: Vector2
 
 # Called when the node enters the scene tree for the first time.
@@ -26,10 +25,10 @@ func _ready():
 
 func _process(delta):
 	if move_dir.is_equal_approx(Vector2.ZERO):
-		$Fire.hide()
+		$AxisAligned/Fire.hide()
 	else:
-		$Fire.rotation = move_dir.angle()
-		$Fire.show()
+		$AxisAligned/Fire.rotation = move_dir.angle()
+		$AxisAligned/Fire.show()
 
 func _input(event):
 	if is_network_master():
@@ -56,6 +55,11 @@ func _physics_process(delta):
 				float(Input.is_action_pressed("ui_right")) - float(Input.is_action_pressed("ui_left")),
 				float(Input.is_action_pressed("ui_down")) - float(Input.is_action_pressed("ui_up"))
 			).normalized()
+#		move_dir = Vector2(
+#				-float(Input.is_action_pressed("ui_down")) + float(Input.is_action_pressed("ui_up")),
+#				0
+#			).normalized().rotated(aiming_at.angle())
+
 		apply_central_impulse(move_dir * fuel_power * delta)
 		
 		# shoot
@@ -131,11 +135,11 @@ func _on_HitBox_body_entered(body):
 	die()
 
 func set_player_name(new_name):
-	get_node("labelName").set_text(new_name)
+	get_node("AxisAligned/labelName").set_text(new_name)
 
 puppet func update_pos_and_vel(pos, vel):
 	position = pos
 	linear_velocity = vel
 	
 func _on_camera_zoom_changed(newsize):
-	$labelName.rect_scale = newsize
+	$AxisAligned/labelName.rect_scale = newsize
