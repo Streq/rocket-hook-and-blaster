@@ -17,6 +17,10 @@ var spawn_pos: Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var camera = get_tree().get_root().find_node("camera", true, false)
+	camera.connect("zoom_changed", self, "_on_camera_zoom_changed")
+#	if is_network_master():
+#		$labelName.hide()
 	pass # Replace with function body.
 
 func _process(delta):
@@ -126,3 +130,5 @@ puppet func update_pos_and_vel(pos, vel):
 	position = pos
 	linear_velocity = vel
 	
+func _on_camera_zoom_changed(newsize):
+	$labelName.rect_scale = newsize
