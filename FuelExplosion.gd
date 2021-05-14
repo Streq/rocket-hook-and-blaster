@@ -1,9 +1,13 @@
 extends Area2D
 
 
+var speed = 1500
 var power = 10000
 var recoil = 10000
 var parent : Node
+
+func _physics_process(delta):
+	position -= transform.x * speed * delta
 
 func _on_FuelExplosion_body_entered(body):
 	if body != parent:
