@@ -6,6 +6,7 @@ export var fuel_power := 10000
 var Bullet : PackedScene = preload("res://Bullet.tscn")
 var Explosion : PackedScene = preload("res://FuelExplosion.tscn")
 
+var lives := 10
 
 var move_dir : Vector2
 var aiming_at : Vector2
@@ -111,9 +112,15 @@ puppet func instance_explosion(position, rotation):
 func die():
 	sleeping = true
 	yield(get_tree(), "idle_frame")
+	lives -= 1
 	position = spawn_pos
 	sleeping = false
 	linear_velocity = Vector2.ZERO
+	if lives == 0:
+		var cam = get_node("camera")
+		remove_child(cam)
+		get_parent().add_child(cam)
+		queue_free()
 	
 
 func _on_GunCooldown_timeout():
