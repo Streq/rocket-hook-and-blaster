@@ -18,7 +18,8 @@ var spawn_pos: Vector2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var camera = get_tree().get_root().find_node("camera", true, false)
-	camera.connect("zoom_changed", self, "_on_camera_zoom_changed")
+	if camera:
+		camera.connect("zoom_changed", self, "_on_camera_zoom_changed")
 #	if is_network_master():
 #		$labelName.hide()
 	pass # Replace with function body.
@@ -31,9 +32,9 @@ func _process(delta):
 		$AxisAligned/Fire.show()
 
 func _input(event):
-	if is_network_master():
+	if !Global.peer || is_network_master():
 		if event is InputEventMouseButton:
-			aiming_at = (event.position - Vector2(get_viewport_rect().size) * 0.5).normalized()
+			aiming_at = (event.position - get_global_transform_with_canvas().origin).normalized()
 	#		print("pressed:" + str(event.pressed))
 	#		print("index:" + str(event.button_index))
 	#		print("factor:" + str(event.factor))
@@ -45,11 +46,11 @@ func _input(event):
 				2:
 					wanna_jump = event.pressed
 		elif event is InputEventMouseMotion:
-			aiming_at = (event.position - Vector2(get_viewport_rect().size) * 0.5).normalized()
+			aiming_at = (event.position - get_global_transform_with_canvas().origin).normalized()
 			
 
 func _physics_process(delta):
-	if is_network_master():
+	if !Global.peer || is_network_master():
 		# move goddamnit
 		move_dir = Vector2(
 				float(Input.is_action_pressed("ui_right")) - float(Input.is_action_pressed("ui_left")),
