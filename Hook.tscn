@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/chain_claw.png" type="Texture" id=1]
+[ext_resource path="res://assets/chain.png" type="Texture" id=2]
+[ext_resource path="res://Hook.gd" type="Script" id=3]
+
+[node name="Hook" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Chain" type="Sprite" parent="."]
+position = Vector2( -8, 0 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 16, 16 )
+
+[node name="Head" type="Sprite" parent="."]
+position = Vector2( 8, 0 )
+texture = ExtResource( 1 )

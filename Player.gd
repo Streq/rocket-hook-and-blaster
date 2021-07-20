@@ -5,6 +5,9 @@ export var fuel_power := 2000
 
 var Bullet : PackedScene = preload("res://Bullet.tscn")
 var Explosion : PackedScene = preload("res://FuelExplosion.tscn")
+var Hook : PackedScene = preload("res://Hook.tscn")
+
+
 
 var lives := 10
 
@@ -12,6 +15,7 @@ var move_dir : Vector2
 var aiming_at : Vector2
 var wanna_shoot : bool = false
 var wanna_jump : bool = false
+var wanna_hook : bool = false
 var can_shoot : bool = true
 var spawn_pos: Vector2
 
@@ -42,11 +46,13 @@ func _input(event):
 	#		print("position:" + str(event.position))
 			match event.button_index:
 				1:
-					wanna_shoot = event.pressed 
+					wanna_shoot = event.is_pressed() 
 				2:
-					wanna_jump = event.pressed
+					wanna_jump = event.is_pressed()
 		elif event is InputEventMouseMotion:
 			aiming_at = (event.position - get_global_transform_with_canvas().origin).normalized()
+		elif event.is_action("hook"):
+			wanna_hook = event.is_pressed()
 			
 
 func _physics_process(delta):
@@ -73,6 +79,11 @@ func _physics_process(delta):
 		if wanna_jump:
 			wanna_jump = false
 			jump()
+			
+		if wanna_hook:
+			wanna_hook = false
+			hook()
+			
 		rpc_unreliable("update_pos_and_vel", position, linear_velocity)
 
 func jump():
@@ -97,6 +108,13 @@ func shoot():
 	
 	can_shoot = false
 	$GunCooldown.start()
+
+func hook():
+	var b = Hook.instance()
+	get_parent().add_child(b)
+	b.shoot(self, aiming_at)
+		
+	
 
 puppet func instance_bullet(position, rotation):
 	var b = Bullet.instance()

@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://RopeTest.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 22.3959, 22.7284 )
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 492.519, 293.424 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( -1027.05, 1.5874 )
+polygon = PoolVector2Array( 1024, 0, 1024, 600, 0, 600, 0, 0 )
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( 1024, 0 )
+polygon = PoolVector2Array( 1024, 0, 1024, 600, 0, 600, 0, 0 )
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( -1024, 600 )
+polygon = PoolVector2Array( 1024, 0, 1024, 600, 0, 600, 0, 0 )
+
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( 1024, 600 )
+polygon = PoolVector2Array( 1024, 0, 1024, 600, 0, 600, 0, 0 )
+
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( 1024, -600 )
+polygon = PoolVector2Array( 1024, 0, 1024, 600, 0, 600, 0, 0 )
+
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( 0, -600 )
+polygon = PoolVector2Array( 1024, 0, 1024, 600, 0, 600, 0, 0 )
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( -1024, -600 )
+polygon = PoolVector2Array( 1024, 0, 1024, 600, 0, 600, 0, 0 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( 0, 600 )
+polygon = PoolVector2Array( 1024, 0, 1024, 600, 0, 600, 0, 0 )
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2( 415.069, 381.538 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource( 1 )
